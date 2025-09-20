@@ -1,0 +1,144 @@
+Module in Node : 3type
+1.BUild in module
+2. 3rd party module install by npm install
+3. custom made module
+
+
+eventEmiiter.once('pushNotify', () => {
+    console.log('This will be logged only once.');
+});
+
+eventEmiiter.emit('greet', 'Alice'); // Triggers the greet event and calls the listener
+eventEmiiter.emit('pushNotify'); // Triggers the pushNotify event and calls the listener
+eventEmiiter.emit('pushNotify'); 
+
+the above envet onlu excute once
+
+
+EventEmitter in Node.js (Short Notes)
+
+Module: events
+
+const EventEmitter = require('events');
+const emitter = new EventEmitter();
+
+🔹 Key Concepts
+
+EventEmitter is a class in Node.js used to handle events.
+
+It follows publish-subscribe (pub-sub) or observer pattern.
+
+You can emit (trigger) an event and listen (subscribe) to it with callback functions.
+
+🔹 Common Methods
+
+emitter.on(event, listener) → add a listener (runs every time the event is emitted).
+
+emitter.once(event, listener) → add a one-time listener (runs only the first time).
+
+emitter.emit(event, [...args]) → trigger the event, passing arguments to listeners.
+
+emitter.removeListener(event, listener) / emitter.off(event, listener) → remove a specific listener.
+
+emitter.removeAllListeners([event]) → remove all listeners (for one event or all).
+
+emitter.listeners(event) → get list of listeners for an event.
+
+🔹 Example
+const EventEmitter = require('events');
+const emitter = new EventEmitter();
+
+function greet(name) {
+  console.log(`Hello, ${name}`);
+}
+
+// Add listener
+emitter.on('greet', greet);
+
+// Emit event
+emitter.emit('greet', 'Prikshit'); // Hello, Prikshit
+
+// Remove listener
+emitter.off('greet', greet);
+
+// No output (listener removed)
+emitter.emit('greet', 'Prikshit');
+
+🔹 Real-life Uses
+
+HTTP server (req, res events)
+
+Streams (data, end events)
+
+File System (fs.watch)
+
+Custom app events (logging, notifications, etc.)
+
+⚡ Summary:
+EventEmitter lets you create custom events, attach listeners, and control how your app responds asynchronously. It’s the core of Node.js event-driven architecture
+
+
+
+# BUffer in Node Js:
+
+Buffer in Node.js is a built-in class used to handle binary data directly in memory (outside of V8’s JavaScript engine).
+It’s especially useful when working with streams (like files, TCP sockets, HTTP requests), where data comes in chunks, not all at once.
+
+🔹 Why Buffer?
+
+JavaScript (in browsers) normally handles text (UTF-8/Unicode strings), not raw binary data.
+
+Node.js uses Buffer to efficiently process raw binary streams (e.g., image files, network packets).
+
+🔹 Creating a Buffer
+// Allocate a buffer of size 10 bytes (filled with zeros)
+const buf1 = Buffer.alloc(10);
+
+// Allocate uninitialized buffer (faster, but may contain old data)
+const buf2 = Buffer.allocUnsafe(10);
+
+// Create a buffer from string
+const buf3 = Buffer.from('Hello', 'utf-8'); 
+
+🔹 Reading and Writing
+const buf = Buffer.alloc(10);
+buf.write('Hi');   // write string into buffer
+console.log(buf.toString()); // Hi
+
+🔹 Accessing Bytes
+const buf = Buffer.from('ABC');
+console.log(buf[0]);  // 65 (ASCII of 'A')
+console.log(buf[1]);  // 66
+console.log(buf[2]);  // 67
+
+🔹 Converting Buffer to String
+const buf = Buffer.from('नमस्ते', 'utf-8');
+console.log(buf.toString()); // नमस्ते
+
+🔹 Useful Buffer Methods
+
+Buffer.alloc(size) → Creates buffer with initialized memory.
+
+Buffer.allocUnsafe(size) → Faster but may have old data.
+
+Buffer.from(obj, encoding) → Create buffer from string/array.
+
+buf.toString([encoding]) → Convert buffer to string.
+
+buf.slice(start, end) → Returns a sub-buffer.
+
+Buffer.concat([buf1, buf2]) → Merge buffers.
+
+buf.length → Buffer size in bytes.
+
+🔹 Example: Reading file with Buffer
+const fs = require('fs');
+
+fs.readFile('test.txt', (err, data) => {
+  if (err) throw err;
+  console.log(data);           // Buffer <48 65 6c 6c 6f>
+  console.log(data.toString()); // Hello
+});
+
+
+👉 In short: Buffer in Node.js lets you deal with raw binary data (images, files, network packets) efficiently.
